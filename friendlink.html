@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>友情链接</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/fl.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="buttons-top">
+            <a href="/index.html" class="btn">返回主站</a>
+            <div class="email-menu-container">
+                <button id="toggleEmail" class="btn">添加友链</button>
+                <div id="emailMenu" class="email-menu">
+                    <div class="text-info">
+                        <a href="mailto:me@example.com" style="text-decoration: none; color: inherit;">
+                            <div class="info-row">
+                                <div class="content">联系邮箱：me@example.com</div>
+                            </div>
+                        </a>
+                        <div class="info-row">
+                            <div class="label">添加友链请发送至邮箱</div>
+                        </div>
+                        <div class="info-row" data-copy="site name">
+                            <div class="content">站名：站点名称</div>
+                            <button class="copy-btn"><i class="fas fa-clone"></i></button>
+                        </div>
+                        <div class="info-row" data-copy="https://example.com/avatar.webp">
+                            <div class="content">头像：https://example.com/avatar.webp</div>
+                            <button class="copy-btn"><i class="fas fa-clone"></i></button>
+                        </div>
+                        <div class="info-row" data-copy="https://example.com">
+                            <div class="content">链接：https://example.com</div>
+                            <button class="copy-btn"><i class="fas fa-clone"></i></button>
+                        </div>
+                        <div class="info-row" data-copy="none">
+                            <div class="content">简介：暂无</div>
+                            <button class="copy-btn"><i class="fas fa-clone"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="links-container" id="linksContainer">
+            <div class="loading">加载友链中...</div>
+        </div>
+    </div>
+    
+    <a href="https://example.com/images" target="_blank" class="footer-btn" rel="noopener noreferrer">
+        <i class="fas fa-image"></i>背景图片
+    </a>
+    
+    <div id="toast" class="toast">已复制到剪切板</div>
+    
+    <script src="js/fl.js"></script>
+</body>
+</html>
