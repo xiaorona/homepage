@@ -1,0 +1,48 @@
+---
+---
+
+<div class="navbar">
+  <div class="logo" id="logo">
+    <a href="/">
+      <img src="/images/logo.png" alt="Logo">
+    </a>
+  </div>
+  <div class="hamburger-menu" id="hamburger-menu">
+    <div class="hamburger-bar"></div>
+    <div class="hamburger-bar"></div>
+    <div class="hamburger-bar"></div>
+  </div>
+  <div class="desktop-menu">
+    <a href="/" class="menu-link">首页</a>
+    <a href="/about" class="menu-link">关于我</a>
+    <a href="/contact" class="menu-link">联系我</a>
+  </div>
+  <div class="menu" id="mobile-menu">
+    <a href="/" class="menu-link">首页</a>
+    <a href="/about" class="menu-link">关于我</a>
+    <a href="/contact" class="menu-link">联系我</a>
+  </div>
+</div>
+
+<script is:inline define:vars={{ id: Math.random().toString(36) }}>
+  // 立即执行的脚本
+  (function() {
+    const menuBtn = document.getElementById('hamburger-menu');
+    const menu = document.getElementById('mobile-menu');
+    
+    if (menuBtn && menu) {
+      menuBtn.addEventListener('click', function() {
+        menuBtn.classList.toggle('active');
+        menu.classList.toggle('active');
+        console.log('汉堡菜单被点击');
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar')) {
+          menuBtn.classList.remove('active');
+          menu.classList.remove('active');
+        }
+      });
+    }
+  })();
+</script>
