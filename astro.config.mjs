@@ -17,8 +17,8 @@ export default defineConfig({
     build: {
       // 启用CSS压缩
       cssCodeSplit: true,
-      // 启用JS压缩
-      minify: 'terser',
+    // 启用JS压缩（使用esbuild代替terser）
+    minify: 'esbuild',
       // 启用tree-shaking
       rollupOptions: {
         output: {
