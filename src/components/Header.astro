@@ -24,25 +24,84 @@
   </div>
 </div>
 
-<script is:inline define:vars={{ id: Math.random().toString(36) }}>
-  // 立即执行的脚本
-  (function() {
+<script>
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  function initHamburgerMenu() {
     const menuBtn = document.getElementById('hamburger-menu');
     const menu = document.getElementById('mobile-menu');
     
-    if (menuBtn && menu) {
-      menuBtn.addEventListener('click', function() {
-        menuBtn.classList.toggle('active');
-        menu.classList.toggle('active');
-        console.log('汉堡菜单被点击');
+    if (!menuBtn || !menu) return;
+    
+    menuBtn.classList.remove('active');
+    menu.classList.remove('active');
+    
+    const newMenuBtn = menuBtn.cloneNode(true);
+    menuBtn.parentNode.replaceChild(newMenuBtn, menuBtn);
+    
+    const freshMenuBtn = document.getElementById('hamburger-menu');
+    const freshMenu = document.getElementById('mobile-menu');
+    
+    if (freshMenuBtn && freshMenu) {
+      const toggleMenu = debounce(function() {
+        freshMenuBtn.classList.toggle('active');
+        freshMenu.classList.toggle('active');
+      }, 100);
+      
+      freshMenuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
       });
       
-      document.addEventListener('click', function(e) {
-        if (!e.target.closest('.navbar')) {
-          menuBtn.classList.remove('active');
-          menu.classList.remove('active');
-        }
+      const menuLinks = freshMenu.querySelectorAll('.menu-link');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          freshMenuBtn.classList.remove('active');
+          freshMenu.classList.remove('active');
+        });
       });
+      
+      const outsideClickHandler = function(e) {
+        if (!e.target.closest('.navbar')) {
+          freshMenuBtn.classList.remove('active');
+          freshMenu.classList.remove('active');
+        }
+      };
+      
+      const escKeyHandler = function(e) {
+        if (e.key === 'Escape') {
+          freshMenuBtn.classList.remove('active');
+          freshMenu.classList.remove('active');
+        }
+      };
+      
+      document.removeEventListener('click', window.hamburgerOutsideClick);
+      document.removeEventListener('keydown', window.hamburgerEscKey);
+      
+      document.addEventListener('click', outsideClickHandler);
+      document.addEventListener('keydown', escKeyHandler);
+      
+      window.hamburgerOutsideClick = outsideClickHandler;
+      window.hamburgerEscKey = escKeyHandler;
     }
-  })();
+  }
+
+  document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+  document.addEventListener('astro:page-load', initHamburgerMenu);
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHamburgerMenu);
+  } else {
+    initHamburgerMenu();
+  }
 </script>

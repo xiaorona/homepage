@@ -1,0 +1,94 @@
+---
+---
+
+<script>
+  class MenuPerformanceOptimizer {
+    constructor() {
+      this.isAnimating = false;
+      this.rafId = null;
+      this.init();
+    }
+    
+    init() {
+      this.preloadElements();
+      this.optimizeTouchEvents();
+      this.handleVisibilityChange();
+    }
+    
+    preloadElements() {
+      this.menuBtn = document.getElementById('hamburger-menu');
+      this.menu = document.getElementById('mobile-menu');
+      
+      if (this.menuBtn && this.menu) {
+        this.menuBtn.style.willChange = 'transform';
+        this.menu.style.willChange = 'transform, opacity';
+      }
+    }
+    
+    optimizeTouchEvents() {
+      const menuBtn = document.getElementById('hamburger-menu');
+      if (menuBtn) {
+        menuBtn.addEventListener('touchstart', () => {}, { passive: true });
+        menuBtn.addEventListener('touchend', () => {}, { passive: true });
+      }
+    }
+    
+    handleVisibilityChange() {
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          if (this.rafId) {
+            cancelAnimationFrame(this.rafId);
+          }
+        }
+      });
+    }
+    
+    smoothToggle(element, className) {
+      if (this.isAnimating) return;
+      
+      this.isAnimating = true;
+      this.rafId = requestAnimationFrame(() => {
+        element.classList.toggle(className);
+        
+        setTimeout(() => {
+          this.isAnimating = false;
+          if (element.style.willChange) {
+            element.style.willChange = 'auto';
+          }
+        }, 200);
+      });
+    }
+    
+    reinit() {
+      this.preloadElements();
+      this.optimizeTouchEvents();
+    }
+  }
+  
+  let menuOptimizer = null;
+  
+  function initMenuOptimizer() {
+    if (menuOptimizer) {
+      menuOptimizer.reinit();
+    } else {
+      menuOptimizer = new MenuPerformanceOptimizer();
+    }
+  }
+  
+  if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', initMenuOptimizer);
+    document.addEventListener('astro:page-load', initMenuOptimizer);
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMenuOptimizer);
+    } else {
+      initMenuOptimizer();
+    }
+  }
+</script>
+
+<style>
+  :host {
+    display: none;
+  }
+</style>
