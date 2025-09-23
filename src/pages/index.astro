@@ -37,7 +37,6 @@ import Footer from '../components/Footer.astro';
   </div>
 
   <style>
-    /* 昵称样式 */
     .nickname {
       font-size: 24px;
       font-weight: 600;
@@ -48,7 +47,6 @@ import Footer from '../components/Footer.astro';
       letter-spacing: 1px;
     }
 
-    /* 一言容器 - 新的渐变背景设计 */
     .hitokoto-container {
       margin-top: 20px;
       background: linear-gradient(135deg, 
@@ -88,7 +86,6 @@ import Footer from '../components/Footer.astro';
       border-color: rgba(254, 123, 181, 0.3);
     }
 
-    /* 一言头部 */
     .hitokoto-header {
       display: flex;
       align-items: center;
@@ -110,7 +107,6 @@ import Footer from '../components/Footer.astro';
       letter-spacing: 0.5px;
     }
 
-    /* 新的刷新按钮设计 */
     .refresh-btn {
       background: linear-gradient(135deg, #FE7BB5, #B3B1FE);
       border: none;
@@ -153,7 +149,6 @@ import Footer from '../components/Footer.astro';
       transition: transform 0.3s ease;
     }
 
-    /* 一言内容区域 */
     .hitokoto-content {
       padding: 16px 20px 20px 20px;
     }
@@ -199,7 +194,6 @@ import Footer from '../components/Footer.astro';
       opacity: 0.8;
     }
 
-    /* 加载状态 */
     .loading {
       opacity: 0.7;
     }
@@ -222,7 +216,6 @@ import Footer from '../components/Footer.astro';
       animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* 移动端适配 */
     @media (max-width: 768px) {
       .nickname {
         font-size: 20px;
@@ -264,7 +257,6 @@ import Footer from '../components/Footer.astro';
   </style>
 
   <script>
-    // 一言API功能
     class HitokotoManager {
       constructor() {
         this.hitokotoElement = document.getElementById('hitokoto');
@@ -277,17 +269,14 @@ import Footer from '../components/Footer.astro';
       }
       
       init() {
-        // 页面加载时获取一言
         this.fetchHitokoto();
         
-        // 绑定刷新按钮事件
         if (this.refreshBtn) {
           this.refreshBtn.addEventListener('click', () => {
             this.fetchHitokoto();
           });
         }
         
-        // 每30分钟自动刷新一次
         setInterval(() => {
           this.fetchHitokoto();
         }, 30 * 60 * 1000);
@@ -325,7 +314,6 @@ import Footer from '../components/Footer.astro';
       
       displayHitokoto(data) {
         if (this.hitokotoElement && this.fromElement) {
-          // 淡出效果
           this.hitokotoElement.style.opacity = '0';
           this.fromElement.style.opacity = '0';
           
@@ -341,7 +329,6 @@ import Footer from '../components/Footer.astro';
             }
             this.fromElement.textContent = fromText;
             
-            // 淡入效果
             this.hitokotoElement.style.opacity = '1';
             this.fromElement.style.opacity = '1';
             this.container?.classList.add('fade-in');
@@ -361,19 +348,16 @@ import Footer from '../components/Footer.astro';
       }
     }
     
-    // 初始化一言管理器
     function initHitokoto() {
       new HitokotoManager();
     }
     
-    // 多种初始化方式确保兼容性
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initHitokoto);
     } else {
       initHitokoto();
     }
     
-    // Astro ViewTransitions 支持
     document.addEventListener('astro:page-load', initHitokoto);
   </script>
 </MainLayout>
